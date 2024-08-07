@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add book to the library List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to top, #f77062 0%, #fe5196 100%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form id="addBookForm" class="mt-4" action="/api/books" method="POST">
+      <h2 class="mb-3">Add New Book</h2>
+      {{#if errorMessage}}
+      <div class="alert alert-danger">{{errorMessage}}</div>
+      {{/if}}
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="author">Author:</label>
+        <input type="text" class="form-control" id="author" name="author" required>
+      </div>
+      <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input type="text" class="form-control" id="isbn" name="isbn" required>
+      </div>
+      <button type="submit" class="btn btn-success">Add Book</button>
+    </form>
+  </div>
+  <!-- Home Button -->
+  <div class="text-center">
+    <a href="/" class="btn btn-primary home-button">Home</a>
+  </div>
+</body>
+<script>
+  //Script to adding book to the library system database
+  document.getElementById('addBookForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    //Get form data
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const isbn = document.getElementById('isbn').value;
+
+
+    fetch('/api/books', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, author, isbn }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'Book added successfully!') {
+          //clear form inputs
+          document.getElementById('title').value = '';
+          document.getElementById('author').value = '';
+          document.getElementById('isbn').value = '';
+
+          //show success alert
+          alert('Successfully entered book!');
+
+          //refresh the page
+          location.reload();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+</script>
+
+</html>
