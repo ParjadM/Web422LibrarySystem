@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Transactions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to top, #f77062 0%, #fe5196 100%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center">Transactions</h1>
+        {{#if transactions}}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Book ID</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Borrow Date</th>
+                    <th scope="col">Return Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each transactions}}
+                <tr>
+                    <td>{{this.bookId}}</td>
+                    <td>{{this.userId}}</td>
+                    <td>{{this.borrowDate}}</td>
+                    <td>{{this.returnDate}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+        <p>No transactions to display.</p>
+        <p>Database is empty</p>
+        {{/if}}
+    </div>
+    <!-- Home Button -->
+    <div class="text-center mt-5">
+        <a href="/" class="btn btn-primary">Home</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Library Management System - Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to top, #f77062 0%, #fe5196 100%);
+    }
+
+    .jumbotron {
+      background-color: #343a40;
+
+      color: white;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <div class="jumbotron">
+      <h1 class="display-4 text-center">Welcome to Parjad Library System</h1>
+      <p class="lead text-center">Place to manage your books and transactions</p>
+      <hr class="my-4">
+      <p class="text-center">Choose an action below to get started!</p>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <a href="/books" class="btn btn-primary btn-lg btn-block">View Book List</a>
+      </div>
+      <div class="col-md-6 mb-3">
+        <a href="/add-book" class="btn btn-success btn-lg btn-block">Add New Book</a>
+      </div>
+      <div class="col-md-4 mb-3">
+        <a href="/books/new" class="btn btn-info btn-lg btn-block">Go to Book Details</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
