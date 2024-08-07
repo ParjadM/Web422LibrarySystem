@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to top, #f77062 0%, #fe5196 100%);
+    }
+  </style>
+</head>
+
+<body>
+  {{#if errorMessage}}
+  <div class="alert alert-danger">{{errorMessage}}</div>
+  {{/if}}
+  <table class="table table-striped table-bordered mx-auto">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="text-center">Title</th>
+        <th scope="col" class="text-center">Author</th>
+        <th scope="col" class="text-center">ISBN</th>
+        <th scope="col" class="text-center">Status</th>
+        <th scope="col" class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each books}}
+      <tr>
+        <td class="text-center" data-book-id="{{_id}}">{{title}}</td>
+        <td class="text-center">{{author}}</td>
+        <td class="text-center">{{isbn}}</td>
+        <td class="text-center">{{#if isBorrowed}}Borrowed{{else}}Available{{/if}}</td>
+        <td class="text-center">
+          <button id="editButton" class="btn btn-primary">Edit title</button>
+          <form id="editForm" action="/api/books/{{_id}}" method="post" style="display: none;">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" value="{{title}}"><br>
+            <input type="submit" value="Submit">
+          </form>
+          <form action="/api/books/{{_id}}" method="POST" style="display: inline;">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          {{#if isBorrowed}}
+          {{#with (lookupActiveTransaction _id)}}
+          <form action="/api/return" method="POST" style="display: inline;">
+            <input type="hidden" name="transactionId" value="{{this._id}}">
+            <input type="hidden" name="bookId" value="{{../_id}}">
+            <button type="submit" class="btn btn-warning">Return</button>
+          </form>
+          {{/with}}
+          {{/if}}
+          {{#unless isBorrowed}}
+          <form action="/api/borrow" method="POST" style="display: inline;">
+            <input type="hidden" name="bookId" value="{{_id}}">
+            <input type="text" name="username" placeholder="Your Name" required>
+            <button type="submit" class="btn btn-success">Borrow</button>
+          </form>
+          {{/unless}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <!-- Home Button -->
+  <div class="text-center">
+    <a href="/" class="btn btn-primary home-button">Home</a>
+  </div>
+</body>
+<script>
+  //editing book by title
+  const editButtons = document.querySelectorAll('#editButton');
+  editButtons.forEach((editButton) => {
+    editButton.addEventListener('click', function () {
+      const editForm = this.nextElementSibling;
+      editForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const bookId = this.action.split('/').pop();
+        const newTitle = this.title.value;
+
+        try {
+          const response = await fetch(this.action, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ title: newTitle }),
+          });
+          const data = await response.json();
+          console.log('Success:', data);
+
+          //Update the title on the page
+          const bookTitleCell = document.querySelector(`td[data-book-id="${bookId}"]`);
+          if (bookTitleCell) {
+            bookTitleCell.textContent = newTitle;
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+
+        editForm.style.display = 'none';
+        location.reload();
+      });
+
+      editForm.style.display = 'block';
+    });
+  });
+</script>
+
+
+</html>
