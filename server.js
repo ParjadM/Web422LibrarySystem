@@ -10,7 +10,7 @@ const app = express();
 const port = 3000;
 
 //mongoose connection
-const uri = "mongodb+srv://minooeip:minooei89@cluster0.c7gpila.mongodb.net/";
+const uri = "mongodb+srv://minooeip:<password>@cluster0.c7gpila.mongodb.net/";
 const dbName = "Web422";
 
 //mondels
