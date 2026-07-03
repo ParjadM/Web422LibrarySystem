@@ -1,47 +1,97 @@
-READ ME FILE!
-Assignment 1: Library Management System
+# Web422 Library System
 
-Overview
-•	In this assignment, I will develop a library management system using Node.js and express for the backend, and bootstrap for the frontend UI. The system will allow users to perform CRUD operations on books and manage borrow and return transactions. This project will help me understand full-stack development, Restful API design, and CRUD operations in web application.
-Objective
-•	Build a Restful API using Node.js and express to manage books and borrow operations
-•	Implement a frontend using HTML, CSS and bootstrap plus handlebars to interact with the backend.
-•	Apply CRUD operations on books: Create, read, update, delete.
-•	Implement functionality to borrow and return books
-•	Use MongoDB as the database for storing book and transaction data.
-Requirements – Backend (Node.js & Express)
-•	Initialize a new Node.js project
-•	Install necessary NPM packages: express, mongoose, body-parser, and Cors.
-Database Model:
-•	Use Mongoose to define models for books and transactions (borrow/return).
-•	The book model should include fields such as title, author, ISBN.
-•	The transaction model should include fields such as bookID, userID, borrowDate, and returnDate.
-API Endpoints
-•	Implement CRUD operations for books
-o	GET /api/books to retrieve all books.
-o	POST /api/books to add a new book. 
-o	GET /api/books/:id to retrieve a book by ID.
-o	PUT /api/books/:id to update a book by ID. 
-o	DELETE /api/books/:id to delete a book by ID.
-•	Implement endpoints for borrow and return books 
-o	POST /api/borrow to borrow a book. 
-o	POST /api/return to return a book
-UI design
-a.	Create three different sections for transaction/add book/ view/edit books
-Project setup instructions
-b.	Extract the file into your local machine
-c.	Navigate to the file directory in visual studio code or your choice of IDE
-d.	Run ‘npm install’ to install necessary dependencies
-e.	Start the server by running ‘node server.js’ 
-f.	Open your web browser and navigate to ‘http://localhost:3000’ to view the application
-API endpoints and their usage
-g.	GET /api/books: Retrieves all books.
-h.	POST /api/books: Adds a new book.
-i.	GET /api/books/:id: Retrieves a book by ID.
-j.	PUT /api/books/:id: Updates a book by ID.
-k.	DELETE /api/books/:id: Deletes a book by ID.
-l.	POST /api/borrow: Borrows a book.
-m.	POST /api/return: Returns a book.
-Frontend design
-n.	The frontend of this application is designed with bootstrap. It includes a main page that lists all books and options to add, edit, or delete a book. There is also a form to add or edit book details. A borrow interface is implemented, allowing users to borrow and return books. There is also a transaction page where it displays the history of the transaction. Finally, an add book page to add book the library system.
+A Node.js and Express library management app built for Web422. The application uses Handlebars for server-rendered pages, MongoDB Atlas for persistence, and Mongoose models for books and transactions.
+
+## Features
+
+- View the library book list
+- Add, edit, and delete books
+- Borrow and return books
+- Track active and completed transactions
+- Render pages with Handlebars templates
+
+## Tech Stack
+
+- Node.js
+- Express
+- MongoDB Atlas
+- Mongoose
+- Handlebars
+- Body Parser
+- CORS
+- Express Session
+
+## Project Structure
+
+- `server.js` - app entry point, routes, and server setup
+- `models/book.js` - book schema
+- `models/transaction.js` - transaction schema
+- `views/` - Handlebars templates
+
+## Data Models
+
+### Book
+
+- `title` - required string
+- `author` - required string
+- `isbn` - required unique string
+- `isBorrowed` - boolean flag for availability
+- `transactions` - related transaction references
+
+### Transaction
+
+- `bookId` - reference to a book
+- `userId` - borrower name or identifier
+- `borrowDate` - date the book was borrowed
+- `returnDate` - date the book was returned
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js installed locally
+- Access to a MongoDB Atlas cluster or another MongoDB instance
+
+### Installation
+
+1. Clone the repository.
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Update the MongoDB connection string in `server.js` with your own credentials.
+
+### Run the App
+
+```bash
+npm start
+```
+
+The app runs on `http://localhost:3000`.
+
+## Available Routes
+
+### Pages
+
+- `GET /` - home page with the book list
+- `GET /books` - rendered book list page
+- `GET /books/new` - rendered book and transaction view
+- `GET /add-book` - add book form
+
+### API
+
+- `POST /api/books` - create a new book
+- `GET /api/books/:id` - retrieve books data
+- `PUT /api/books/:id` - update a book title
+- `POST /api/books/:id` - delete a book when `_method=DELETE` is posted
+- `POST /api/borrow` - borrow a book
+- `POST /api/return` - return a book
+
+## Notes
+
+- The MongoDB connection string is currently hardcoded in `server.js`.
+- The app expects the `books` and `transactions` collections to exist or be created automatically on startup.
+- Some routes are designed for server-rendered views rather than a pure JSON API.
 
